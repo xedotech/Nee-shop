@@ -4,6 +4,7 @@
 // ever touches the disk.
 //
 //   node render/render.js --out out/video.mp4
+//   node render/render.js --out out/part.mp4 --start 6 --end 12
 //   node render/render.js --stills 0.5,12,34 --width 960 --height 540
 
 const http = require('http');
@@ -138,8 +139,13 @@ async function main() {
   }
 
   // ---- full render -------------------------------------------------------
+  // A frame range keeps the job restartable: render the film as a handful of
+  // segments and a lost worker only costs the segment it was on.
+  const startFrame = a.start === undefined ? 0 : Math.round(Number(a.start) * fps);
+  const endFrame = a.end === undefined ? Math.round(duration * fps) : Math.round(Number(a.end) * fps);
+
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
-  const total = Math.round(duration * fps);
+  const total = endFrame - startFrame;
   const ff = spawn(
     ffmpegPath(),
     [
@@ -169,7 +175,7 @@ async function main() {
 
   const started = Date.now();
   for (let i = 0; i < total; i++) {
-    const t = i / fps;
+    const t = (startFrame + i) / fps;
     const data = await grab(t, 'image/jpeg', quality / 100);
     const buf = Buffer.from(data.split(',')[1], 'base64');
     if (!ff.stdin.write(buf)) {

@@ -71,6 +71,11 @@ pip install imageio-ffmpeg numpy
 photosynthesis/render/build.sh # -> photosynthesis/out/photosynthesis.mp4
 ```
 
+A full 1080p pass takes roughly twenty minutes on CPU, so the film renders as
+ten six-second segments into `out/parts/`. Segments already on disk are
+verified and skipped, which means an interrupted build resumes where it
+stopped — just run `build.sh` again. `CHUNK=3 build.sh` shortens the segments.
+
 Faster look at a change:
 
 ```bash

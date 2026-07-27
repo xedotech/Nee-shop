@@ -1,4 +1,7 @@
 node_modules/
+
+# Render intermediates. The finished master (out/photosynthesis.mp4) is tracked.
 photosynthesis/out/stills/
+photosynthesis/out/parts/
 photosynthesis/out/score.wav
 photosynthesis/out/video.mp4

@@ -1,0 +1,14 @@
+{
+  "name": "photosynthesis-film",
+  "private": true,
+  "version": "1.0.0",
+  "description": "60-second 3D motion-graphics explainer: how photosynthesis works",
+  "scripts": {
+    "build": "photosynthesis/render/build.sh",
+    "stills": "node photosynthesis/render/render.js --stills 2.5,14,20.5,33.5,48,57 --width 1280 --height 720"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.0.0",
+    "three": "^0.169.0"
+  }
+}
